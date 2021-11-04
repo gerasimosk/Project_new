@@ -162,7 +162,7 @@ namespace Unit_Test
         }
 
         [TestMethod]
-        public async Task AddUser_ShouldReturnAddedUSer_WhenUserIsValid()
+        public async Task AddUser_ShouldReturnAddedUser_WhenUserIsValid()
         {
             // Arrange
             var user1Id = 1;
@@ -271,6 +271,150 @@ namespace Unit_Test
             ex = await Assert.ThrowsExceptionAsync<ArgumentException>(() => _sut.AddUserAsync(userDTO));
             Assert.AreEqual("Email is not in the right format \"name@domail.com\"", ex.Message);
             userDTO.EmailAddress = "mail@domainName.com";
+        }
+
+        [TestMethod]
+        public async Task UpdateUser_ShouldReturnUpdatedUser_WhenUserIsValid()
+        {
+            // Arrange
+            var user1Id = 1;
+            var userDTOChanged = new User
+            {
+                Id = user1Id,
+                Name = "name1Changed",
+                Surname = "surname1Changed",
+                BirthDate = DateTime.Today.AddDays(-2),
+                UserTypeId = 2,
+                UserTitleId = 2,
+                EmailAddress = "mail@domainNameChanged.com",
+                IsActive = false
+            };
+
+            _userRepoMock.Setup(x => x.UpdateAsync(userDTOChanged))
+                .ReturnsAsync(userDTOChanged);
+
+            // Act
+            var user = await _sut.UpdateUserAsync(userDTOChanged);
+
+            //Assert
+
+            Assert.AreEqual("name1Changed", user.Name);
+            Assert.AreEqual("surname1Changed", user.Surname);
+            Assert.AreEqual(DateTime.Today.AddDays(-2), user.BirthDate);
+            Assert.AreEqual(2, user.UserTypeId);
+            Assert.AreEqual(2, user.UserTitleId);
+            Assert.AreEqual("mail@domainNameChanged.com", user.EmailAddress);
+            Assert.AreEqual(false, user.IsActive);
+        }
+
+        [TestMethod]
+        public async Task UpdateUser_ShouldReturnException_WhenUserIsNotValid()
+        {
+            // Arrange
+            var user1Id = 1;
+            var userDTO = new User
+            {
+                Id = user1Id,
+                Name = "name1",
+                Surname = "surname1",
+                BirthDate = DateTime.Today.AddDays(-1),
+                UserTypeId = 1,
+                UserTitleId = 1,
+                EmailAddress = "mail@domainName.com",
+                IsActive = true
+            };
+
+            _userRepoMock.Setup(x => x.UpdateAsync(userDTO))
+                .ReturnsAsync(userDTO);
+
+            //Assert
+            ArgumentException ex = null;
+
+            //Max length of Name
+            userDTO.Name = "name1name1name1name1name1";
+            ex = await Assert.ThrowsExceptionAsync<ArgumentException>(() => _sut.UpdateUserAsync(userDTO));
+            Assert.AreEqual("Name can't be longer than 20 characters", ex.Message);
+            userDTO.Name = "name1";
+
+            //Max length of Surname
+            userDTO.Surname = "surname1surname1surname1";
+            ex = await Assert.ThrowsExceptionAsync<ArgumentException>(() => _sut.UpdateUserAsync(userDTO));
+            Assert.AreEqual("Surname can't be longer than 20 characters", ex.Message);
+            userDTO.Surname = "surname1";
+
+            //Date of birthday which is in future
+            userDTO.BirthDate = DateTime.Today.AddDays(1);
+            ex = await Assert.ThrowsExceptionAsync<ArgumentException>(() => _sut.UpdateUserAsync(userDTO));
+            Assert.AreEqual("Birthday date must be less than today", ex.Message);
+            userDTO.BirthDate = DateTime.Today.AddDays(-1);
+
+            //User type must not be empty
+            userDTO.UserTypeId = 0;
+            ex = await Assert.ThrowsExceptionAsync<ArgumentException>(() => _sut.UpdateUserAsync(userDTO));
+            Assert.AreEqual("User type identity must be greater then zero and not NULL", ex.Message);
+            userDTO.UserTypeId = 1;
+
+            //User type must be greater than zero
+            userDTO.UserTypeId = -1;
+            ex = await Assert.ThrowsExceptionAsync<ArgumentException>(() => _sut.UpdateUserAsync(userDTO));
+            Assert.AreEqual("User type identity must be greater then zero and not NULL", ex.Message);
+            userDTO.UserTypeId = 1;
+
+            //User title must not be empty
+            userDTO.UserTitleId = 0;
+            ex = await Assert.ThrowsExceptionAsync<ArgumentException>(() => _sut.UpdateUserAsync(userDTO));
+            Assert.AreEqual("User title identity must be greater then zero and not NULL", ex.Message);
+            userDTO.UserTitleId = 1;
+
+            //User title must be greater than zero
+            userDTO.UserTitleId = -1;
+            ex = await Assert.ThrowsExceptionAsync<ArgumentException>(() => _sut.UpdateUserAsync(userDTO));
+            Assert.AreEqual("User title identity must be greater then zero and not NULL", ex.Message);
+            userDTO.UserTitleId = 1;
+
+            //Max length of mail
+            userDTO.EmailAddress = "mail@domainNamedomainNamedomainNamedomainNamedomainName.com";
+            ex = await Assert.ThrowsExceptionAsync<ArgumentException>(() => _sut.UpdateUserAsync(userDTO));
+            Assert.AreEqual("Email can't be longer than 50 characters", ex.Message);
+            userDTO.EmailAddress = "mail@domainName.com";
+
+            //Invalid mail
+            userDTO.EmailAddress = "mail.com";
+            ex = await Assert.ThrowsExceptionAsync<ArgumentException>(() => _sut.UpdateUserAsync(userDTO));
+            Assert.AreEqual("Email is not in the right format \"name@domail.com\"", ex.Message);
+            userDTO.EmailAddress = "mail@domainName.com";
+        }
+
+        [TestMethod]
+        public async Task DeleteUser_ShouldReturnNothing_WhenUserIsValid()
+        {
+            // Arrange
+            var userId = 1;
+
+            _userRepoMock.Setup(x => x.DeleteUser(userId));
+
+            // Act
+            try {
+                await _sut.DeleteUserAsync(userId);
+                
+            }
+            catch
+            {
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public async Task DeleteUser_ShouldReturnException_WhenUserIdentityIsNotValid()
+        {
+            // Arrange
+            var userId = 0;
+
+            _userRepoMock.Setup(x => x.DeleteUser(userId));
+
+            // Assert
+            ArgumentOutOfRangeException ex = await Assert.ThrowsExceptionAsync<ArgumentOutOfRangeException>(() => _sut.DeleteUserAsync(userId));
+            Assert.AreEqual("The Identity of a user cannot be zero or negative", ex.ParamName);
         }
     }
 }
