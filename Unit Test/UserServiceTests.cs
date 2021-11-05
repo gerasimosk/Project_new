@@ -46,7 +46,7 @@ namespace Unit_Test
                 .ReturnsAsync(new List<User>() { user1DTO, user2DTO });
 
             // Act
-            List<User> users = _sut.GetUsersAsync(1, 100, null).Result.Value;
+            List<User> users = _sut.GetUsersAsync(1, 100, null).Result;
 
             //Assert
             Assert.AreEqual(2, users.Count());
@@ -82,7 +82,7 @@ namespace Unit_Test
                 .ReturnsAsync(new List<User>() { user2DTO });
 
             // Act
-            List<User> users = _sut.GetUsersAsync(1, 100, "Nik").Result.Value;
+            List<User> users = _sut.GetUsersAsync(1, 100, "Nik").Result;
 
             //Assert
             Assert.AreEqual(1, users.Count());
@@ -99,7 +99,7 @@ namespace Unit_Test
                 .ReturnsAsync(() => null);
 
             // Act
-            List<User> users = _sut.GetUsersAsync(1, 100, null).Result.Value;
+            List<User> users = _sut.GetUsersAsync(1, 100, null).Result;
 
             //Assert
             Assert.IsNull(users);
@@ -132,7 +132,7 @@ namespace Unit_Test
                 .ReturnsAsync(userDTO);
 
             // Act
-            User user = await _sut.GetUSerById(userId);
+            User user = await _sut.GetUserByIdAsync(userId);
 
             //Assert
             Assert.AreEqual(userDTO.Name, user.Name);
@@ -147,7 +147,7 @@ namespace Unit_Test
                 .ReturnsAsync(() => null);
 
             // Act
-            User user = await _sut.GetUSerById(100);
+            User user = await _sut.GetUserByIdAsync(100);
 
             //Assert
             Assert.IsNull(user);
@@ -157,8 +157,8 @@ namespace Unit_Test
         public async Task GetByGetUSerById_ShouldReturnException_WhenUserIdentityIsInvalid()
         {
             //Assert
-            await Assert.ThrowsExceptionAsync<ArgumentOutOfRangeException>(() => _sut.GetUSerById(-1));
-            await Assert.ThrowsExceptionAsync<ArgumentOutOfRangeException>(() => _sut.GetUSerById(0));
+            await Assert.ThrowsExceptionAsync<ArgumentOutOfRangeException>(() => _sut.GetUserByIdAsync(-1));
+            await Assert.ThrowsExceptionAsync<ArgumentOutOfRangeException>(() => _sut.GetUserByIdAsync(0));
         }
 
         [TestMethod]
@@ -269,7 +269,7 @@ namespace Unit_Test
             //Invalid mail
             userDTO.EmailAddress = "mail.com";
             ex = await Assert.ThrowsExceptionAsync<ArgumentException>(() => _sut.AddUserAsync(userDTO));
-            Assert.AreEqual("Email is not in the right format \"name@domail.com\"", ex.Message);
+            Assert.AreEqual("Email is not in the right format \"name@domain.com\"", ex.Message);
             userDTO.EmailAddress = "mail@domainName.com";
         }
 
@@ -381,7 +381,7 @@ namespace Unit_Test
             //Invalid mail
             userDTO.EmailAddress = "mail.com";
             ex = await Assert.ThrowsExceptionAsync<ArgumentException>(() => _sut.UpdateUserAsync(userDTO));
-            Assert.AreEqual("Email is not in the right format \"name@domail.com\"", ex.Message);
+            Assert.AreEqual("Email is not in the right format \"name@domain.com\"", ex.Message);
             userDTO.EmailAddress = "mail@domainName.com";
         }
 
@@ -391,7 +391,7 @@ namespace Unit_Test
             // Arrange
             var userId = 1;
 
-            _userRepoMock.Setup(x => x.DeleteUser(userId));
+            _userRepoMock.Setup(x => x.DeleteUserAsync(userId));
 
             // Act
             try {
@@ -410,7 +410,7 @@ namespace Unit_Test
             // Arrange
             var userId = 0;
 
-            _userRepoMock.Setup(x => x.DeleteUser(userId));
+            _userRepoMock.Setup(x => x.DeleteUserAsync(userId));
 
             // Assert
             ArgumentOutOfRangeException ex = await Assert.ThrowsExceptionAsync<ArgumentOutOfRangeException>(() => _sut.DeleteUserAsync(userId));

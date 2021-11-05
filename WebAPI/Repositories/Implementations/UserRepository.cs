@@ -13,14 +13,19 @@ namespace WebAPI.Repositories.Implementations
         {
         }
 
-        public async Task<List<User>> GetUsersAsync(int? pageNumber, int? pageSize, string fullName)
+        public async Task<List<User>> GetUsersAsync(int pageNumber, int pageSize, string fullName)
         {
+            if (pageNumber < 1 || pageSize < 1)
+            {
+                throw new ArgumentOutOfRangeException("Page number and page size must be greater than zero");
+            }
+
             return await GetAll()
                 .Where(q => q.IsActive == true)
                 .Where(q => (fullName != null ? (q.Name + " " + q.Surname).StartsWith(fullName) : true))
 
-                .Skip(((int)pageNumber - 1) * (int)pageSize)
-                .Take((int)pageSize)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
         }
 
@@ -43,21 +48,32 @@ namespace WebAPI.Repositories.Implementations
         {
             if (id <= 0)
             {
-                throw new ArgumentOutOfRangeException("The Identity of a user cannot  be zero or negative");
+                throw new ArgumentOutOfRangeException("The Identity of a user cannot be zero or negative");
             }
 
             var entity = await GetAll()
                 .Where(q => q.Id == id)
                 .FirstOrDefaultAsync();
 
+            if (entity == null)
+            {
+                throw new ArgumentOutOfRangeException("Cannot find a user with the given identity");
+            }
+
             return entity;
         }
 
-        public async Task DeleteUser(int id)
+        public async Task DeleteUserAsync(int id)
         {
             var entity = await GetByIdAsync(id);
 
+            if (entity == null)
+            {
+                throw new ArgumentOutOfRangeException("Cannot find a user with the given identity");
+            }
+
             entity.IsActive = false;
+
             await UpdateAsync(entity);
         }
     }

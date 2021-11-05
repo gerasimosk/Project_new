@@ -12,12 +12,12 @@ namespace WebAPI.Services
         /// <param name="pageSize">Size of the page.</param>
         /// <param name="fullName">The full name.</param>
         /// <returns>List of users</returns>
-        Task<ActionResult<List<User>>> GetUsersAsync(int? pageNumber, int? pageSize, string fullName);
+        Task<List<User>> GetUsersAsync(int pageNumber, int pageSize, string fullName);
 
         /// <summary>Gets the user by identifier.</summary>
         /// <param name="id">The identifier.</param>
         /// <returns>All the information about the user</returns>
-        Task<User> GetUSerById(int id);
+        Task<User> GetUserByIdAsync(int id);
 
         /// <summary>Adds the user asynchronous.</summary>
         /// <param name="user">The user.</param>

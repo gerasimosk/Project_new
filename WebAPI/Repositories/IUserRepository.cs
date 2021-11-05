@@ -11,7 +11,7 @@ namespace WebAPI.Repositories
         /// <param name="pageSize">Size of the page.</param>
         /// <param name="fullName">The full name.</param>
         /// <returns>List of users</returns>
-        Task<List<User>> GetUsersAsync(int? pageNumber, int? pageSize, string fullName);
+        Task<List<User>> GetUsersAsync(int pageNumber, int pageSize, string fullName);
 
         /// <summary>Gets the user by identifier asynchronous.</summary>
         /// <param name="id">The identifier.</param>
@@ -20,6 +20,6 @@ namespace WebAPI.Repositories
 
         /// <summary>Deletes the user.</summary>
         /// <param name="id">The identifier.</param>
-        Task DeleteUser(int id);
+        Task DeleteUserAsync(int id);
     }
 }

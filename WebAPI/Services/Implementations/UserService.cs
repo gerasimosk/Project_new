@@ -17,22 +17,23 @@ namespace WebAPI.Services.Implementations
             _userRepository = userRepository ?? throw new System.ArgumentNullException(nameof(userRepository));
         }
 
-        public async Task<ActionResult<List<User>>> GetUsersAsync(int? pageNumber, int? pageSize, string fullName)
+        public async Task<List<User>> GetUsersAsync(int pageNumber, int pageSize, string fullName)
         {
-            if (pageNumber == null || pageSize == null || pageNumber < 1 || pageSize < 1)
+            if (pageNumber < 1 || pageSize < 1)
             {
                 throw new ArgumentOutOfRangeException("Page number and page size must be greater than zero");
             }
+
             return await _userRepository.GetUsersAsync(pageNumber, pageSize, fullName);
         }
 
-        public async Task<User> GetUSerById(int id)
+        public async Task<User> GetUserByIdAsync(int id)
         {
             if (id <= 0)
             {
                 throw new ArgumentOutOfRangeException("The Identity of a user cannot be zero or negative");
             }
-            
+
             return await _userRepository.GetUserByIdAsync(id);
         }
 
@@ -57,7 +58,7 @@ namespace WebAPI.Services.Implementations
                 throw new ArgumentOutOfRangeException("The Identity of a user cannot be zero or negative");
             }
 
-            await _userRepository.DeleteUser(id);
+            await _userRepository.DeleteUserAsync(id);
         }
     }
 }
