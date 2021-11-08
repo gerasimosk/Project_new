@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebAPI.Domain;
+using WebAPI.Exceptions;
 using WebAPI.Services;
 using WebAPI.Services.DTOs;
 
@@ -70,11 +71,17 @@ namespace WebAPI.Controllers
 
                 return Ok(userDetailsAfterMapping);
             }
-            catch (Exception ex) when (ex is ArgumentOutOfRangeException)
+            catch (Exception ex) when (ex is ArgumentException || ex is ArgumentNullException || ex is ArgumentOutOfRangeException)
             {
                 _logger.LogError(ex.Message);
 
                 return BadRequest(ex.Message);
+            }
+            catch (Exception ex) when (ex is EntityNotFoundException)
+            {
+                _logger.LogError(ex.Message);
+
+                return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
@@ -149,11 +156,17 @@ namespace WebAPI.Controllers
 
                 return Ok();
             }
-            catch (Exception ex) when (ex is ArgumentOutOfRangeException)
+            catch (Exception ex) when (ex is ArgumentException || ex is ArgumentNullException || ex is ArgumentOutOfRangeException)
             {
                 _logger.LogError(ex.Message);
 
                 return BadRequest(ex.Message);
+            }
+            catch (Exception ex) when (ex is EntityNotFoundException)
+            {
+                _logger.LogError(ex.Message);
+
+                return NotFound(ex.Message);
             }
             catch (Exception ex)
             {

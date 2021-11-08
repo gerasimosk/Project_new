@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.Domain;
+using WebAPI.Exceptions;
 
 namespace WebAPI.Repositories.Implementations
 {
@@ -57,7 +58,7 @@ namespace WebAPI.Repositories.Implementations
 
             if (entity == null)
             {
-                throw new ArgumentOutOfRangeException("Cannot find a user with the given identity");
+                throw new EntityNotFoundException("Cannot find a user with the given identity");
             }
 
             return entity;
@@ -69,7 +70,7 @@ namespace WebAPI.Repositories.Implementations
 
             if (entity == null)
             {
-                throw new ArgumentOutOfRangeException("Cannot find a user with the given identity");
+                throw new EntityNotFoundException("Cannot find a user with the given identity");
             }
 
             entity.IsActive = false;
