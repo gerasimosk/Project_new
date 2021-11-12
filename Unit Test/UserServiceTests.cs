@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Threading.Tasks;
 using WebAPI.Domain;
 using WebAPI.Repositories;
 using WebAPI.Services.Implementations;
@@ -19,6 +20,52 @@ namespace Unit_Test
             _userRepoMock = new Mock<IUserRepository>();
             _sut = new UserService(_userRepoMock.Object);
         }
+
+        [TestMethod]
+        public async Task GetCountOfUsers_ShouldReturnCountOfUsers_WhenThereAreUsers()
+        {
+            // Arrange
+
+            _userRepoMock.Setup(x => x.GetUsersCountAsync(""))
+                .ReturnsAsync(5);
+
+            // Act
+            var count = await _sut.GetUsersCountAsync("");
+
+            //Assert
+            Assert.AreEqual(5, count);
+        }
+
+        [TestMethod]
+        public async Task GetCountOfUsers_ShouldReturnZero_WhenThereAreNotUsers()
+        {
+            // Arrange
+
+            _userRepoMock.Setup(x => x.GetUsersCountAsync(""))
+                .ReturnsAsync(0);
+
+            // Act
+            var count = await _sut.GetUsersCountAsync("");
+
+            //Assert
+            Assert.AreEqual(0, count);
+        }
+
+        [TestMethod]
+        public async Task GetCountOfUsers_ShouldReturnCountOfUsers_WhenThereAreUsersAndStartsWithNikos()
+        {
+            // Arrange
+            _userRepoMock.Setup(x => x.GetUsersCountAsync("Nikos"))
+                .ReturnsAsync(1);
+
+            // Act
+            var count = await _sut.GetUsersCountAsync("Nikos");
+
+            //Assert
+            Assert.AreEqual(1, count);
+        }
+
+
 
         private bool CheckIfTwoEntitiesAreIdentical(User user1, User user2)
         {

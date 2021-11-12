@@ -77,5 +77,13 @@ namespace WebAPI.Repositories.Implementations
 
             await UpdateAsync(entity);
         }
+
+        public async Task<int> GetUsersCountAsync(string fullName)
+        {
+            return await GetAll()
+                .Where(q => q.IsActive == true)
+                .Where(q => (fullName != null ? (q.Name + " " + q.Surname).StartsWith(fullName) : true))
+                .CountAsync();
+        }
     }
 }

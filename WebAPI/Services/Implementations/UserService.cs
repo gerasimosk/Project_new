@@ -59,5 +59,10 @@ namespace WebAPI.Services.Implementations
 
             await _userRepository.DeleteUserAsync(id);
         }
+
+        public async Task<int> GetUsersCountAsync(string fullName)
+        {
+            return await _userRepository.GetUsersCountAsync(fullName);
+        }
     }
 }

@@ -21,5 +21,10 @@ namespace WebAPI.Repositories
         /// <summary>Deletes the user.</summary>
         /// <param name="id">The identifier.</param>
         Task DeleteUserAsync(int id);
+
+        /// <summary>Gets the number of active users asynchronous.</summary>
+        /// <param name="fullName">The full name.</param>
+        /// <returns>The number of active users</returns>
+        Task<int> GetUsersCountAsync(string fullName);
     }
 }

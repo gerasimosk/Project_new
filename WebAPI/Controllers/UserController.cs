@@ -175,5 +175,23 @@ namespace WebAPI.Controllers
                 throw ex;
             }
         }
+
+        [HttpGet]
+        [Route("count")]
+        public async Task<ActionResult<int>> GetUsersCount(string fullName)
+        {
+            try
+            {
+                var usersCount = await _userService.GetUsersCountAsync(fullName);
+
+                return Ok(usersCount);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+
+                throw ex;
+            }
+        }
     }
 }
