@@ -53,10 +53,14 @@ namespace WebAPI
             #region Repositories
             //services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserTypeRepository, UserTypeRepository>();
+            services.AddScoped<IUserTitleRepository, UserTitleRepository>();
             #endregion
 
             #region Services
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserTypeService, UserTypeService>();
+            services.AddScoped<IUserTitleService, UserTitleService>();
             #endregion
 
             #region Mappings
