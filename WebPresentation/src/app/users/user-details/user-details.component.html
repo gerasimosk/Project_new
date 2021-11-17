@@ -1,0 +1,70 @@
+<div class="row pv-lg">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+        <form *ngIf="userForm" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" formControlName="name" class="form-control"
+                            value="{{ user?.name }}">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12" style="margin-top: 10px;">
+                    <div class="form-group">
+                        <label for="surname">Surname</label>
+                        <input type="text" id="surname" formControlName="surname" class="form-control"
+                            value="{{ user?.surname }}">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12" style="margin-top: 10px;">
+                    <div class="form-group">
+                        <label for="birthDate">Birth Date</label>
+                        <input type="date" id="birthDate" formControlName="birthDate" class="form-control"
+                            value="{{ user?.birthDate }}">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12" style="margin-top: 10px;">
+                    <div class="form-group">
+                        <label for="userTypeId">User Type</label>
+                        <select class="form-select" id="userTypeId" formControlName="userTypeId">
+                                <option  *ngFor="let i of userTypes" [selected]="editMode ? i.id == user.userTypeId : null" value={{i.id}}>{{i.description}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12" style="margin-top: 10px;">
+                    <div class="form-group">
+                        <label for="userTitleId">User Title</label>
+                        <select class="form-select" id="userTitleId" formControlName="userTitleId">
+                            <option *ngFor="let i of userTitles" [selected]="editMode ? i.id == user.userTitleId : null" value={{i.id}}>{{i.description}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12" style="margin-top: 10px;">
+                    <div class="form-group">
+                        <label for="emailAddress">Email</label>
+                        <input type="text" id="emailAddress" formControlName="emailAddress" class="form-control"
+                            value="{{ user?.emailAddress }}">
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <button *ngIf="!editMode" type="submit" class="btn btn-success" [disabled]="!userForm.valid" style="margin-right: 5px;">Add</button>
+            <button *ngIf="editMode" type="submit" class="btn btn-primary" [disabled]="!userForm.valid" style="margin-right: 5px;">Update</button>
+            <button type="button" class="btn btn-danger" (click)="onCancel()" >Cancel</button>
+
+        </form>
+    </div>
+    
+
+</div>
