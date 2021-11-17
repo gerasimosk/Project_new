@@ -34,7 +34,7 @@
                     <div class="form-group">
                         <label for="userTypeId">User Type</label>
                         <select class="form-select" id="userTypeId" formControlName="userTypeId">
-                                <option  *ngFor="let i of userTypes" [selected]="editMode ? i.id == user.userTypeId : null" value={{i.id}}>{{i.description}}</option>
+                                <option  *ngFor="let userType of userTypes" [selected]="editMode ? userType.id == user.userTypeId : null" value={{userType.id}}>{{userType.description}}</option>
                         </select>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                     <div class="form-group">
                         <label for="userTitleId">User Title</label>
                         <select class="form-select" id="userTitleId" formControlName="userTitleId">
-                            <option *ngFor="let i of userTitles" [selected]="editMode ? i.id == user.userTitleId : null" value={{i.id}}>{{i.description}}</option>
+                            <option *ngFor="let userTitle of userTitles" [selected]="editMode ? userTitle.id == user.userTitleId : null" value={{userTitle.id}}>{{userTitle.description}}</option>
                         </select>
                     </div>
                 </div>
