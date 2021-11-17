@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebAPI.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Innitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -70,8 +70,11 @@ namespace WebAPI.Migrations
                 columns: new[] { "Id", "Description" },
                 values: new object[,]
                 {
-                    { 1, "description1" },
-                    { 2, "description2" }
+                    { 1, "userTitle 1" },
+                    { 2, "userTitle 2" },
+                    { 3, "userTitle 3" },
+                    { 4, "userTitle 4" },
+                    { 5, "userTitle 5" }
                 });
 
             migrationBuilder.InsertData(
@@ -79,19 +82,34 @@ namespace WebAPI.Migrations
                 columns: new[] { "Id", "Code", "Description" },
                 values: new object[,]
                 {
-                    { 1, "a", "description1" },
-                    { 2, "b", "description2" }
+                    { 1, "a", "userType 1" },
+                    { 2, "b", "userType 2" },
+                    { 3, "c", "userType 3" },
+                    { 4, "d", "userType 4" },
+                    { 5, "e", "userType 5" }
                 });
 
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "BirthDate", "EmailAddress", "IsActive", "Name", "Surname", "UserTitleId", "UserTypeId" },
-                values: new object[] { 1, new DateTime(2020, 12, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "george@example.com", true, "George", "GeorgeSurname", 1, 1 });
-
-            migrationBuilder.InsertData(
-                table: "User",
-                columns: new[] { "Id", "BirthDate", "EmailAddress", "IsActive", "Name", "Surname", "UserTitleId", "UserTypeId" },
-                values: new object[] { 2, new DateTime(2021, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "nikos@example.com", true, "Nikos", "NikosSurname", 2, 2 });
+                values: new object[,]
+                {
+                    { 1, new DateTime(2019, 12, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Brian@example.com", true, "Brian", "Glover", 1, 1 },
+                    { 11, new DateTime(2019, 12, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), "Julia@example.com", true, "Julia", "Blair", 2, 1 },
+                    { 14, new DateTime(1018, 12, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), "Pearl@example.com", true, "Pearl", "Salazar", 4, 1 },
+                    { 2, new DateTime(2020, 10, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "Samantha@example.com", true, "Samantha", "Russell", 2, 2 },
+                    { 8, new DateTime(2020, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Edric@example.com", true, "Edric", "Burrows", 4, 2 },
+                    { 15, new DateTime(2020, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "Zelene@example.com", true, "Zelene", "Row", 2, 2 },
+                    { 3, new DateTime(2018, 9, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "Adele@example.com", true, "Adele", "Stephens", 4, 3 },
+                    { 9, null, "Fletcher@example.com", true, "Fletcher", "Abbott", 1, 3 },
+                    { 10, null, "Marc@example.com", true, "Marc", "Atkinson", 2, 3 },
+                    { 13, null, "Rita@example.com", true, "Rita", "Wheatly", 3, 3 },
+                    { 4, new DateTime(2019, 12, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Bert@example.com", true, "Bert", "Ruell", 4, 4 },
+                    { 7, new DateTime(2020, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), "Willa@example.com", true, "Willa", "Walsh", 3, 4 },
+                    { 5, new DateTime(2019, 8, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "Tyrone@example.com", true, "Tyrone", "Stanley", 5, 5 },
+                    { 6, null, "Windsor@example.com", true, "Windsor", "Ryan", 2, 5 },
+                    { 12, new DateTime(2020, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "Maxwell@example.com", true, "Maxwell", "Jackson", 5, 5 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_UserTitleId",
