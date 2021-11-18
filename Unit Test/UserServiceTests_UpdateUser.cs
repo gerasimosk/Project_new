@@ -24,6 +24,13 @@ namespace Unit_Test
         }
 
         [TestMethod]
+        public async Task UpdateUser_ShouldReturnException_WhenUserIsNull()
+        {
+            //Assert
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => _sut.UpdateUserAsync(null));
+        }
+
+        [TestMethod]
         public async Task UpdateUser_ShouldReturnException_WhenUserHasLongName()
         {
             // Arrange

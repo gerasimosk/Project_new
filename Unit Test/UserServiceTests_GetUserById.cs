@@ -29,8 +29,8 @@ namespace Unit_Test
         public async Task GetUserById_ShouldReturnException_WhenUserDoesNotExists()
         {
             // Arrange
-            _userRepoMock.Setup(x => x.GetUserByIdAsync(100))
-                .Throws(new EntityNotFoundException());
+            _userRepoMock.Setup(x => x.GetUserByIdAsync(It.IsAny<int>()))
+                .Returns(Task.FromResult<User>(null));
 
             //Assert
             await Assert.ThrowsExceptionAsync<EntityNotFoundException>(() => _sut.GetUserByIdAsync(100));

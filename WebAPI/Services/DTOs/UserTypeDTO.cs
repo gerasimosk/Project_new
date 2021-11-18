@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebAPI.Services.DTOs
 {
     /// <summary>
-    ///   <para>DTO for UserType table</para>
+    /// DTO for UserType table
     /// </summary>
     public class UserTypeDTO
     {

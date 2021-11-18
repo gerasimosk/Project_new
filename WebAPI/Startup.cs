@@ -65,6 +65,8 @@ namespace WebAPI
 
             #region Mappings
             services.AddAutoMapper(typeof(UserMappingProfile));
+            services.AddAutoMapper(typeof(UserTitleMappingProfile));
+            services.AddAutoMapper(typeof(UserTypeMappingProfile));
             #endregion
 
             services.AddControllers();

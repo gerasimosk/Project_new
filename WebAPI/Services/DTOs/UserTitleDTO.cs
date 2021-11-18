@@ -1,7 +1,7 @@
 ﻿namespace WebAPI.Services.DTOs
 {
     /// <summary>
-    ///   <para>DTO for UserTitle table</para>
+    /// DTO for UserTitle table
     /// </summary>
     public class UserTitleDTO
     {

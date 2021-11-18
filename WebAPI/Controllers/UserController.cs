@@ -92,7 +92,7 @@ namespace WebAPI.Controllers
         }
 
         /// <summary>Add a user.</summary>
-        /// <param name="user">The user.</param>
+        /// <param name="userDetails">The user.</param>
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] UserDetailsDTO userDetails)
         {
@@ -119,7 +119,7 @@ namespace WebAPI.Controllers
         }
 
         /// <summary>Updates the specified user.</summary>
-        /// <param name="user">The user.</param>
+        /// <param name="userDetails">The user.</param>
         [HttpPut]
         public async Task<ActionResult> Update([FromBody] UserDetailsDTO userDetails)
         {
@@ -176,6 +176,9 @@ namespace WebAPI.Controllers
             }
         }
 
+        /// <summary>Gets the users count.</summary>
+        /// <param name="fullName">The full name.</param>
+        /// <returns>The number of users based on fullName param</returns>
         [HttpGet]
         [Route("count")]
         public async Task<ActionResult<int>> GetUsersCount(string fullName)

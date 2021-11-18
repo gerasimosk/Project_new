@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,13 @@ namespace WebAPI.Controllers
     public class UserTypeController : Controller
     {
         private readonly IUserTypeService _userTypeService;
+        private readonly IMapper _mapper;
         private readonly ILogger _logger;
 
-        public UserTypeController(IUserTypeService userTypeService, ILogger<UserController> logger)
+        public UserTypeController(IUserTypeService userTypeService, IMapper mapper, ILogger<UserController> logger)
         {
             _userTypeService = userTypeService ?? throw new System.ArgumentNullException(nameof(userTypeService));
+            _mapper = mapper ?? throw new System.ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -26,9 +29,11 @@ namespace WebAPI.Controllers
         {
             try
             {
-                var userType = _userTypeService.GetUserType();
+                var userTypes = await _userTypeService.GetUserTypesAsync();
 
-                return Ok(userType);
+                var userTypesAfterMapping = _mapper.Map<List<UserTypeDTO>>(userTypes);
+
+                return Ok(userTypesAfterMapping);
             }
             catch (Exception ex) when (ex is ArgumentOutOfRangeException)
             {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Threading.Tasks;
 using WebAPI.Exceptions;
@@ -11,15 +12,14 @@ namespace Unit_Test
         public async Task DeleteUser_ShouldReturnNothing_WhenUserIsValid()
         {
             // Arrange
-            var userId = 1;
-
-            _userRepoMock.Setup(x => x.DeleteUserAsync(userId));
+            var user1 = MockData.User1();
+            _userRepoMock.Setup(x => x.GetUserByIdAsync(user1.Id))
+                .ReturnsAsync(user1);
 
             // Act
             try
             {
-                await _sut.DeleteUserAsync(userId);
-
+                await _sut.DeleteUserAsync(user1.Id);
             }
             catch
             {
@@ -30,10 +30,6 @@ namespace Unit_Test
         [TestMethod]
         public async Task DeleteUser_ShouldReturnException_WhenUserDoesNotExists()
         {
-            // Arrange
-            _userRepoMock.Setup(x => x.DeleteUserAsync(100))
-                .Throws(new EntityNotFoundException());
-
             //Assert
             await Assert.ThrowsExceptionAsync<EntityNotFoundException>(() => _sut.DeleteUserAsync(100));
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebAPI.Domain;
+using WebAPI.Exceptions;
 using WebAPI.Repositories;
 using WebAPI.Services.Validators;
 
@@ -33,11 +34,23 @@ namespace WebAPI.Services.Implementations
                 throw new ArgumentOutOfRangeException("The Identity of a user cannot be zero or negative");
             }
 
-            return await _userRepository.GetUserByIdAsync(id);
+            var user = await _userRepository.GetUserByIdAsync(id);
+
+            if (user == null)
+            {
+                throw new EntityNotFoundException("Cannot find a user with the given identity");
+            }
+
+            return user;
         }
 
         public async Task<User> AddUserAsync(User user)
         {
+            if (user == null)
+            {
+                throw new ArgumentNullException("User entity must not be null");
+            }
+
             new UserValidator().ValidateUser(user);
 
             return await _userRepository.AddAsync(user);
@@ -45,6 +58,11 @@ namespace WebAPI.Services.Implementations
 
         public async Task<User> UpdateUserAsync(User user)
         {
+            if (user == null)
+            {
+                throw new ArgumentNullException("User entity must not be null");
+            }
+
             new UserValidator().ValidateUser(user);
 
             return await _userRepository.UpdateAsync(user);
@@ -57,7 +75,16 @@ namespace WebAPI.Services.Implementations
                 throw new ArgumentOutOfRangeException("The Identity of a user cannot be zero or negative");
             }
 
-            await _userRepository.DeleteUserAsync(id);
+            var user = await _userRepository.GetUserByIdAsync(id);
+
+            if (user == null)
+            {
+                throw new EntityNotFoundException("Cannot find a user with the given identity");
+            }
+
+            user.IsActive = false;
+
+            await _userRepository.UpdateAsync(user);
         }
 
         public async Task<int> GetUsersCountAsync(string fullName)

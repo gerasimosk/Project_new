@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebAPI.Domain;
 using WebAPI.Repositories;
@@ -16,9 +14,9 @@ namespace WebAPI.Services.Implementations
             _userTitleRepository = userTitleRepository ?? throw new System.ArgumentNullException(nameof(userTitleRepository));
         }
 
-        public List<UserTitle> GetUserTitle()
+        public async Task<List<UserTitle>> GetUserTitlesAsync()
         {
-            return _userTitleRepository.GetUserTitle();
+            return await _userTitleRepository.GetAllAsync();
         }
     }
 }

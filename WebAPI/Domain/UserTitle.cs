@@ -3,7 +3,7 @@
 namespace WebAPI.Domain
 {
     /// <summary>
-    ///   <para>DTO for UserTitle table</para>
+    /// Entity for UserTitle table
     /// </summary>
     public class UserTitle
     {

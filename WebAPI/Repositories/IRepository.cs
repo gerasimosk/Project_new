@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace WebAPI.Repositories
@@ -9,10 +8,6 @@ namespace WebAPI.Repositories
         /// <summary>Gets all entities asynchronous.</summary>
         /// <returns>All entities</returns>
         Task<List<TEntity>> GetAllAsync();
-
-        /// <summary>Gets all entities.</summary>
-        /// <returns>All entities</returns>
-        IQueryable<TEntity> GetAll();
 
         /// <summary>Gets an entity by identifier asynchronous.</summary>
         /// <param name="id">The identifier.</param>
