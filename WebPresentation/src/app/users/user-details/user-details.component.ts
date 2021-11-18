@@ -108,8 +108,7 @@ export class UserDetailsComponent implements OnInit {
         };
         await this.userService.updateUser(toIntegerValues);
         this.toastr.success('User successfully updated!', 'Update');
-        this.user = toIntegerValues;
-        this.titleService.setTitle(this.user.name + " " + this.user.surname);
+        this.titleService.setTitle(this.userForm.value.name + " " + this.userForm.value.surname);
       } catch (error) {
         this.toastr.error('Problem while updating the user!', 'Update');
       }
@@ -124,8 +123,7 @@ export class UserDetailsComponent implements OnInit {
         };
         await this.userService.addUser(toIntegerValues);
         this.toastr.success('User added successfully!', 'Add');
-        this.user = toIntegerValues;
-        this.titleService.setTitle(this.user.name + " " + this.user.surname);
+        this.titleService.setTitle(this.userForm.value.name + " " + this.userForm.value.surname);
       } catch (error) {
         this.toastr.error('Problem while adding the user!', 'Add');
       }
