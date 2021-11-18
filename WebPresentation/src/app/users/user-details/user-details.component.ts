@@ -2,6 +2,8 @@ import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import {Title} from "@angular/platform-browser";
+
 import { IUserTitle } from 'src/app/models/userTitle.model';
 import { IUserType } from 'src/app/models/userType.model';
 import { IUser } from '../../models/user.model';
@@ -29,7 +31,8 @@ export class UserDetailsComponent implements OnInit {
     private userService: UserService,
     private userTypeService: UserTypeService,
     private userTitleService: UserTitleService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private titleService:Title
   ) {}
 
   async ngOnInit() {
@@ -37,11 +40,13 @@ export class UserDetailsComponent implements OnInit {
       this.id = +params['id'];
       if (Number.isNaN(this.id)) {
         this.editMode = false;
+        this.titleService.setTitle("Add user");
       } else {
         this.editMode = true;
       }
       if (this.editMode) {
         this.user = await this.userService.getUser(this.id);
+        this.titleService.setTitle(this.user.name + " " + this.user.surname);
       }
       this.initForm();
     });
@@ -89,20 +94,6 @@ export class UserDetailsComponent implements OnInit {
     });
   }
 
-  async onUpdate() {
-    const toInteger = {
-      ...this.userForm.value,
-      userTitleId: +this.userForm.value.userTitleId,
-      userTypeId: +this.userForm.value.userTypeId,
-    };
-    try {
-      await this.userService.updateUser(toInteger);
-      this.toastr.success('User successfully updated!', 'Update');
-    } catch (error) {
-      this.toastr.error('Problem while updating the user!', 'Update');
-    }
-  }
-
   onCancel() {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
@@ -117,6 +108,8 @@ export class UserDetailsComponent implements OnInit {
         };
         await this.userService.updateUser(toIntegerValues);
         this.toastr.success('User successfully updated!', 'Update');
+        this.user = toIntegerValues;
+        this.titleService.setTitle(this.user.name + " " + this.user.surname);
       } catch (error) {
         this.toastr.error('Problem while updating the user!', 'Update');
       }
@@ -131,6 +124,8 @@ export class UserDetailsComponent implements OnInit {
         };
         await this.userService.addUser(toIntegerValues);
         this.toastr.success('User added successfully!', 'Add');
+        this.user = toIntegerValues;
+        this.titleService.setTitle(this.user.name + " " + this.user.surname);
       } catch (error) {
         this.toastr.error('Problem while adding the user!', 'Add');
       }

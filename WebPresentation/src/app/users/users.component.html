@@ -21,8 +21,8 @@
             <tbody>
                 <tr *ngFor="let user of users; let i = index">
                     <th scope="row">{{ i+1 }}</th>
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.surname}}</td>
+                    <td>{{ user.name || '-'}}</td>
+                    <td>{{ user.surname || '-'}}</td>
                     <td>{{ (user.birthDate | date) || '-'}}</td>
                     <td> <input type="button" value="Select" (click)="userSelected(user)" /></td>
                     <td> <input type="button" value="Delete" (click)="onDelete(i)" style="color: red" /></td>

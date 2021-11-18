@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { loadModules } from 'esri-loader';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-map',
@@ -11,7 +12,9 @@ export class MapComponent implements OnInit {
   @ViewChild('mapViewNode') private viewNode: ElementRef; // needed to inject the MapView into the DOM
   mapView: __esri.MapView;
 
-  constructor() {}
+  constructor(private titleService:Title) {
+    this.titleService.setTitle("Map");
+  }
 
   ngOnInit() {
     return loadModules([

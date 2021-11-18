@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { async, Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import {Title} from "@angular/platform-browser";
 
 import { IUser } from '../models/user.model';
 import { UserService } from '../services/user.service';
@@ -25,8 +26,11 @@ export class UsersComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private toastr: ToastrService
-  ) {}
+    private toastr: ToastrService,
+    private titleService:Title
+  ) {
+    this.titleService.setTitle("Users");
+  }
 
   async ngOnInit() {
     this.fullNameFilterSub = this.fullNameFilter.valueChanges.subscribe(
